@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080A0F">
+<title>ATLAS Signals — Institutional Analysis. Verified Results.</title>
+<meta name="description" content="Professional forex and indices trading signals for South African traders. Gold, NASDAQ, DAX and more. Verified track record. From R149/month.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080A0F;--s1:#0F1218;--s2:#151820;--card:#1A1D28;
+  --cyan:#00D4FF;--mint:#00FF94;--gold:#F6C90E;--red:#FF4560;
+  --text:#E2E8F0;--sub:#8892A4;--border:rgba(255,255,255,0.07);
+  --display:'Syne',sans-serif;--body:'Inter',sans-serif;--mono:'Space Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--body);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:100;background:rgba(8,10,15,0.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:58px}
+.nav-brand{font-family:var(--display);font-size:15px;font-weight:800;letter-spacing:1px;color:var(--cyan)}
+.nav-brand span{color:var(--text)}
+.nav-cta{background:var(--cyan);color:#080A0F;font-family:var(--body);font-weight:700;font-size:13px;padding:9px 20px;border-radius:10px;cursor:pointer;border:none;letter-spacing:0.3px}
+.nav-cta:active{opacity:0.85}
+
+/* ── TICKER ── */
+.ticker-wrap{background:var(--s1);border-bottom:1px solid var(--border);overflow:hidden;height:36px;display:flex;align-items:center}
+.ticker-inner{display:flex;gap:0;animation:ticker 28s linear infinite;white-space:nowrap}
+.ticker-inner:hover{animation-play-state:paused}
+.tick-item{display:inline-flex;align-items:center;gap:8px;padding:0 28px;font-family:var(--mono);font-size:10px;border-right:1px solid var(--border)}
+.tick-pair{font-weight:700;color:var(--text)}
+.tick-dir{padding:1px 7px;border-radius:4px;font-size:9px;font-weight:700}
+.tick-long{background:rgba(0,255,148,0.12);color:var(--mint)}
+.tick-short{background:rgba(255,69,96,0.12);color:var(--red)}
+.tick-result{font-weight:700}
+.tick-win{color:var(--mint)}
+.tick-loss{color:var(--red)}
+.tick-live{color:var(--cyan)}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ── HERO ── */
+.hero{padding:52px 20px 48px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(0,212,255,0.07) 0%,transparent 70%);pointer-events:none}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:7px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:20px;padding:5px 14px;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--cyan);margin-bottom:22px}
+.hero-eyebrow-dot{width:6px;height:6px;background:var(--cyan);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,212,255,0.4)}50%{opacity:0.7;box-shadow:0 0 0 6px rgba(0,212,255,0)}}
+.hero-title{font-family:var(--display);font-size:clamp(28px,8vw,44px);font-weight:800;line-height:1.1;letter-spacing:-0.5px;margin-bottom:16px}
+.hero-title .accent{color:var(--cyan)}
+.hero-sub{font-size:15px;color:var(--sub);line-height:1.65;max-width:380px;margin:0 auto 32px}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:28px}
+.hero-stat{background:var(--card);padding:16px 10px;text-align:center}
+.hero-stat-val{font-family:var(--mono);font-size:22px;font-weight:700;line-height:1;margin-bottom:4px}
+.hero-stat-lbl{font-size:9px;color:var(--sub);letter-spacing:1.5px;font-weight:600}
+.hero-btns{display:flex;flex-direction:column;gap:10px}
+.btn-primary{display:block;background:var(--cyan);color:#080A0F;font-weight:700;font-size:15px;padding:16px 24px;border-radius:13px;text-align:center;letter-spacing:0.3px}
+.btn-primary:active{opacity:0.85}
+.btn-secondary{display:block;background:transparent;color:var(--sub);font-size:13px;text-align:center;padding:10px}
+.guarantee{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11px;color:var(--sub);margin-top:12px}
+
+/* ── SECTION COMMONS ── */
+section{padding:48px 20px}
+.section-eyebrow{font-size:9px;font-weight:700;letter-spacing:2.5px;color:var(--cyan);margin-bottom:10px}
+.section-title{font-family:var(--display);font-size:clamp(22px,6vw,30px);font-weight:800;line-height:1.2;margin-bottom:10px}
+.section-sub{font-size:14px;color:var(--sub);line-height:1.65;margin-bottom:28px}
+.divider{height:1px;background:var(--border);margin:0 20px}
+
+/* ── HOW IT WORKS ── */
+.steps{display:flex;flex-direction:column;gap:16px}
+.step{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;gap:16px;align-items:flex-start}
+.step-num{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--cyan);background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-title{font-size:14px;font-weight:700;margin-bottom:5px}
+.step-body{font-size:13px;color:var(--sub);line-height:1.6}
+
+/* ── TRACK RECORD ── */
+.track-bg{background:var(--s1);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.track-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.track-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px}
+.track-val{font-family:var(--mono);font-size:24px;font-weight:700;line-height:1;margin-bottom:4px}
+.track-lbl{font-size:9px;color:var(--sub);letter-spacing:1.5px;font-weight:600}
+.track-sub{font-size:10px;color:var(--sub);margin-top:5px}
+.recent-signals{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.rs-header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.rs-title{font-size:10px;font-weight:700;color:var(--sub);letter-spacing:1.5px}
+.rs-live{font-size:9px;font-weight:700;color:var(--cyan);letter-spacing:1px}
+.rs-row{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-bottom:1px solid var(--border)}
+.rs-row:last-child{border-bottom:none}
+.rs-pair{font-family:var(--mono);font-size:12px;font-weight:700}
+.rs-dir{font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;margin-left:6px}
+.rs-setup{font-size:10px;color:var(--sub)}
+.rs-r{font-family:var(--mono);font-size:13px;font-weight:700}
+
+/* ── FEATURES ── */
+.features-grid{display:flex;flex-direction:column;gap:12px}
+.feature{display:flex;gap:14px;align-items:flex-start}
+.feature-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;background:var(--card);border:1px solid var(--border)}
+.feature-title{font-size:14px;font-weight:700;margin-bottom:4px}
+.feature-body{font-size:13px;color:var(--sub);line-height:1.55}
+
+/* ── PRICING ── */
+.pricing-note{font-size:12px;color:var(--sub);text-align:center;margin-bottom:20px}
+.plans{display:flex;flex-direction:column;gap:14px}
+.plan{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;position:relative;overflow:hidden}
+.plan.featured{border-color:var(--cyan);background:linear-gradient(135deg,rgba(0,212,255,0.05) 0%,var(--card) 60%)}
+.plan-badge{position:absolute;top:14px;right:14px;background:var(--cyan);color:#080A0F;font-size:9px;font-weight:700;letter-spacing:1px;padding:3px 10px;border-radius:20px}
+.plan-name{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--sub);margin-bottom:8px}
+.plan-price{font-family:var(--mono);font-size:34px;font-weight:700;line-height:1;margin-bottom:4px}
+.plan-price sup{font-size:16px;vertical-align:top;margin-top:6px;display:inline-block}
+.plan-price .period{font-size:13px;color:var(--sub);font-family:var(--body);font-weight:400}
+.plan-desc{font-size:12px;color:var(--sub);margin-bottom:18px;line-height:1.5}
+.plan-features{list-style:none;margin-bottom:22px}
+.plan-features li{display:flex;align-items:flex-start;gap:9px;font-size:13px;padding:6px 0;border-bottom:1px solid var(--border)}
+.plan-features li:last-child{border-bottom:none}
+.plan-features .check{color:var(--mint);font-size:12px;margin-top:1px;flex-shrink:0}
+.plan-features .x{color:var(--sub);font-size:12px;margin-top:1px;flex-shrink:0}
+.plan-features .dim{color:var(--sub)}
+.plan-btn{display:block;width:100%;padding:14px;border-radius:11px;font-size:14px;font-weight:700;text-align:center;cursor:pointer;border:none;font-family:var(--body);letter-spacing:0.3px}
+.plan-btn.primary{background:var(--cyan);color:#080A0F}
+.plan-btn.outline{background:transparent;color:var(--text);border:1px solid var(--border)}
+.plan-btn.ghost{background:var(--s2);color:var(--sub)}
+.payfast-note{font-size:10px;color:var(--sub);text-align:center;margin-top:8px}
+
+/* ── PAIRS ── */
+.pairs-grid{display:flex;flex-wrap:wrap;gap:8px}
+.pair-chip{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:7px 12px;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--text)}
+.pair-chip.gold{border-color:rgba(246,201,14,0.3);color:var(--gold)}
+.pair-chip.index{border-color:rgba(0,212,255,0.25);color:var(--cyan)}
+.pair-chip.crypto{border-color:rgba(0,255,148,0.2);color:var(--mint)}
+
+/* ── FAQ ── */
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:16px 0;cursor:pointer;font-size:14px;font-weight:600;gap:12px}
+.faq-icon{font-size:18px;color:var(--sub);flex-shrink:0;transition:transform 0.2s}
+.faq-a{display:none;font-size:13px;color:var(--sub);line-height:1.7;padding-bottom:16px}
+.faq-item.open .faq-a{display:block}
+.faq-item.open .faq-icon{transform:rotate(45deg)}
+
+/* ── TESTIMONIAL ── */
+.testimonial{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:10px}
+.testimonial-text{font-size:14px;line-height:1.7;margin-bottom:14px;color:var(--text)}
+.testimonial-author{display:flex;align-items:center;gap:10px}
+.testimonial-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--mint));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#080A0F;flex-shrink:0}
+.testimonial-name{font-size:12px;font-weight:700}
+.testimonial-sub{font-size:11px;color:var(--sub)}
+.stars{color:var(--gold);font-size:12px;letter-spacing:2px;margin-bottom:10px}
+
+/* ── FOOTER ── */
+footer{background:var(--s1);border-top:1px solid var(--border);padding:32px 20px;text-align:center}
+.footer-brand{font-family:var(--display);font-size:15px;font-weight:800;color:var(--cyan);margin-bottom:8px}
+.footer-links{display:flex;gap:20px;justify-content:center;margin-bottom:16px;font-size:13px;color:var(--sub)}
+.footer-disclaimer{font-size:10px;color:var(--sub);line-height:1.7;max-width:420px;margin:0 auto}
+
+/* ── STICKY CTA ── */
+.sticky-cta{position:fixed;bottom:0;left:0;right:0;z-index:90;background:rgba(8,10,15,0.95);backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:12px 20px;display:none}
+.sticky-cta.show{display:block}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">ATLAS<span> SIGNALS</span></div>
+  <button class="nav-cta" onclick="scrollToPricing()">Join Now</button>
+</nav>
+
+<!-- LIVE TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner" id="tickerInner">
+    <!-- Populated by JS from localStorage or fallback examples -->
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <div class="hero-eyebrow-dot"></div>
+    LIVE SERVICE · SOUTH AFRICA
+  </div>
+  <h1 class="hero-title">The market has<br>structure. We read<br>it <span class="accent">first.</span></h1>
+  <p class="hero-sub">Institutional-grade analysis on Gold, Indices and Forex — delivered to your Telegram before the move. Verified track record, no hype.</p>
+
+  <div class="hero-stats" id="heroStats">
+    <div class="hero-stat">
+      <div class="hero-stat-val" style="color:var(--mint)" id="hs-wr">--</div>
+      <div class="hero-stat-lbl">WIN RATE</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val" style="color:var(--cyan)" id="hs-r">--</div>
+      <div class="hero-stat-lbl">TOTAL R GAINED</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val" id="hs-sigs">--</div>
+      <div class="hero-stat-lbl">SIGNALS SENT</div>
+    </div>
+  </div>
+
+  <div class="hero-btns">
+    <a class="btn-primary" href="#pricing" onclick="event.preventDefault();scrollToPricing()">Start 7-Day Free Trial →</a>
+    <a class="btn-secondary" href="#track-record">See full track record ↓</a>
+  </div>
+  <div class="guarantee">🔒 No credit card required for free trial &nbsp;·&nbsp; Cancel any time</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="section-eyebrow">HOW IT WORKS</div>
+  <h2 class="section-title">Three steps to your first trade</h2>
+  <p class="section-sub">No complex setup. Signals arrive ready to execute on your XM MT5 account.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div>
+        <div class="step-title">Subscribe &amp; join the channel</div>
+        <div class="step-body">Choose a plan, complete payment via PayFast, and receive your private Telegram channel invite within minutes.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div>
+        <div class="step-title">Receive signals on Telegram</div>
+        <div class="step-body">Each signal includes entry price, stop loss, TP1, TP2, R:R ratio, session timing, and the exact setup — everything needed to place the trade on MT5.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div>
+        <div class="step-title">Place the trade &amp; let it run</div>
+        <div class="step-body">Set your order on XM MT5 using the levels provided. Signal updates are sent when targets hit or the trade is closed — no guesswork.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TRACK RECORD -->
+<section class="track-bg" id="track-record">
+  <div class="section-eyebrow">TRACK RECORD</div>
+  <h2 class="section-title">Every signal. Publicly verified.</h2>
+  <p class="section-sub">Results are tracked in real time and visible to all subscribers. Nothing is hidden, cherry-picked, or backdated.</p>
+
+  <div class="track-grid">
+    <div class="track-card">
+      <div class="track-val" style="color:var(--mint)" id="tr-wr">--</div>
+      <div class="track-lbl">WIN RATE</div>
+      <div class="track-sub" id="tr-wl">-- wins · -- losses</div>
+    </div>
+    <div class="track-card">
+      <div class="track-val" style="color:var(--cyan)" id="tr-r">--</div>
+      <div class="track-lbl">TOTAL R GAINED</div>
+      <div class="track-sub" id="tr-rsub">Risk-adjusted return</div>
+    </div>
+    <div class="track-card">
+      <div class="track-val" id="tr-sigs">--</div>
+      <div class="track-lbl">TOTAL SIGNALS</div>
+      <div class="track-sub" id="tr-active">-- currently active</div>
+    </div>
+    <div class="track-card">
+      <div class="track-val" style="color:var(--gold)" id="tr-streak">--</div>
+      <div class="track-lbl">CURRENT STREAK</div>
+      <div class="track-sub">Consecutive results</div>
+    </div>
+  </div>
+
+  <div class="recent-signals" id="recentSignalsCard">
+    <div class="rs-header">
+      <div class="rs-title">RECENT SIGNALS</div>
+      <div class="rs-live" id="rsLive"></div>
+    </div>
+    <div id="recentSignalsList">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WHAT YOU GET -->
+<section>
+  <div class="section-eyebrow">WHAT YOU GET</div>
+  <h2 class="section-title">Not just signals. The full picture.</h2>
+  <p class="section-sub">Every signal is the output of an institutional-grade analysis engine — not a gut feeling or a YouTube indicator.</p>
+  <div class="features-grid">
+    <div class="feature">
+      <div class="feature-icon">📡</div>
+      <div>
+        <div class="feature-title">Signals with full context</div>
+        <div class="feature-body">Entry, SL, TP1, TP2, R:R, order type, session, and the exact confluence setup. You understand every trade, not just copy it blindly.</div>
+      </div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🎯</div>
+      <div>
+        <div class="feature-title">21 instruments covered</div>
+        <div class="feature-body">Gold, Silver, NAS100, DOW30, DAX, FTSE, GBPJPY, EURUSD, USDCAD, BTCUSD, ETHUSD and more. If the market has a setup, we find it.</div>
+      </div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">⏰</div>
+      <div>
+        <div class="feature-title">Timed for South African hours</div>
+        <div class="feature-body">Signals are prioritised for London open (10:00 SAST) and NY open (15:00 SAST) — the two highest-probability windows in the trading day.</div>
+      </div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🔄</div>
+      <div>
+        <div class="feature-title">Live trade updates</div>
+        <div class="feature-body">When a target hits or a stop is reached, you get notified immediately. TP1 updates tell you when to move your stop to breakeven.</div>
+      </div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">📊</div>
+      <div>
+        <div class="feature-title">Weekly War Room (Pro)</div>
+        <div class="feature-body">Every Sunday, a full weekly breakdown of the macro environment, key levels to watch, and the top 3 setups for the coming week.</div>
+      </div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">✅</div>
+      <div>
+        <div class="feature-title">XM MT5 ready</div>
+        <div class="feature-body">All signals are formatted for XM broker execution. Lot sizing guidance for accounts from R1,000 upward is included with each signal.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:28px">
+    <div class="section-eyebrow" style="margin-bottom:12px">INSTRUMENTS COVERED</div>
+    <div class="pairs-grid">
+      <span class="pair-chip gold">XAU/USD</span>
+      <span class="pair-chip gold">XAG/USD</span>
+      <span class="pair-chip index">NAS100</span>
+      <span class="pair-chip index">DOW30</span>
+      <span class="pair-chip index">DAX</span>
+      <span class="pair-chip index">FTSE</span>
+      <span class="pair-chip">GBP/JPY</span>
+      <span class="pair-chip">EUR/USD</span>
+      <span class="pair-chip">GBP/USD</span>
+      <span class="pair-chip">USD/CAD</span>
+      <span class="pair-chip">EUR/JPY</span>
+      <span class="pair-chip">AUD/USD</span>
+      <span class="pair-chip crypto">BTC/USD</span>
+      <span class="pair-chip crypto">ETH/USD</span>
+      <span class="pair-chip" style="color:var(--sub)">+7 more</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-eyebrow">PRICING</div>
+  <h2 class="section-title">Start free. Stay only if it works.</h2>
+
+  <!-- Currency toggle -->
+  <div style="display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:20px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:4px;width:fit-content;margin-left:auto;margin-right:auto">
+    <button id="ccy-zar" onclick="setCurrency('ZAR')" style="padding:7px 18px;border-radius:7px;border:none;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--body);background:var(--cyan);color:#080A0F;letter-spacing:0.5px">ZAR 🇿🇦</button>
+    <button id="ccy-usd" onclick="setCurrency('USD')" style="padding:7px 18px;border-radius:7px;border:none;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--body);background:transparent;color:var(--sub);letter-spacing:0.5px">USD 🌍</button>
+  </div>
+  <p class="pricing-note" id="pricing-note">Prices shown in South African Rand · Secure card payment via Stripe · Cancel anytime</p>
+
+  <div class="plans">
+
+    <!-- FREE TRIAL -->
+    <div class="plan">
+      <div class="plan-name">FREE TRIAL</div>
+      <div class="plan-price"><sup id="trial-sym">R</sup>0 <span class="period">/ 7 days</span></div>
+      <div class="plan-desc">Full access to the Standard plan for 7 days. No credit card required — just join the Telegram channel.</div>
+      <ul class="plan-features">
+        <li><span class="check">✓</span> All signals for 7 days</li>
+        <li><span class="check">✓</span> Entry, SL, TP1 &amp; TP2 levels</li>
+        <li><span class="check">✓</span> Live trade updates</li>
+        <li><span class="check">✓</span> Timed for your timezone</li>
+        <li><span class="x">–</span> <span class="dim">Weekly War Room brief</span></li>
+        <li><span class="x">–</span> <span class="dim">Direct support</span></li>
+      </ul>
+      <a class="plan-btn ghost" id="trialBtn" href="#" onclick="openTrial(event)">Start Free Trial →</a>
+      <div class="payfast-note">Telegram invite sent within minutes · No card needed</div>
+    </div>
+
+    <!-- STANDARD -->
+    <div class="plan featured">
+      <div class="plan-badge">MOST POPULAR</div>
+      <div class="plan-name">STANDARD</div>
+      <div class="plan-price" id="std-price"><sup>R</sup>149 <span class="period">/ month</span></div>
+      <div class="plan-desc">Everything you need to trade professionally alongside institutional analysis.</div>
+      <ul class="plan-features">
+        <li><span class="check">✓</span> All signals, all 21 instruments</li>
+        <li><span class="check">✓</span> Entry, SL, TP1 &amp; TP2 with R:R</li>
+        <li><span class="check">✓</span> Live updates — TP hits, SL, breakeven</li>
+        <li><span class="check">✓</span> Session timing &amp; lot size guidance</li>
+        <li><span class="check">✓</span> Full setup explanation per signal</li>
+        <li><span class="x">–</span> <span class="dim">Weekly War Room brief</span></li>
+        <li><span class="x">–</span> <span class="dim">Direct WhatsApp support</span></li>
+      </ul>
+      <a class="plan-btn primary" href="#" onclick="stripeCheckout(event,'standard')" id="standardBtn">Subscribe →</a>
+      <div class="payfast-note">🔒 Stripe — cards from any country accepted</div>
+      <div style="margin-top:8px;text-align:center">
+        <a href="#" onclick="eftContact(event,'standard')" style="font-size:10px;color:var(--sub);text-decoration:underline">Prefer EFT / bank transfer? Click here</a>
+      </div>
+    </div>
+
+    <!-- PRO -->
+    <div class="plan">
+      <div class="plan-name">PRO</div>
+      <div class="plan-price" id="pro-price"><sup>R</sup>299 <span class="period">/ month</span></div>
+      <div class="plan-desc">The full experience — signals, weekly intelligence, and direct access.</div>
+      <ul class="plan-features">
+        <li><span class="check">✓</span> Everything in Standard</li>
+        <li><span class="check">✓</span> <strong>Weekly War Room brief</strong> (Sunday)</li>
+        <li><span class="check">✓</span> <strong>Priority signals</strong> — 5 min early</li>
+        <li><span class="check">✓</span> <strong>Monthly performance review</strong></li>
+        <li><span class="check">✓</span> Direct WhatsApp support line</li>
+        <li><span class="check">✓</span> Strategy Q&amp;A access</li>
+      </ul>
+      <a class="plan-btn outline" id="proBtn" href="#" onclick="stripeCheckout(event,'pro')">Subscribe →</a>
+      <div class="payfast-note">🔒 Stripe — cards from any country accepted</div>
+      <div style="margin-top:8px;text-align:center">
+        <a href="#" onclick="eftContact(event,'pro')" style="font-size:10px;color:var(--sub);text-decoration:underline">Prefer EFT / bank transfer? Click here</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Payment methods strip -->
+  <div style="margin-top:20px;padding:14px 16px;background:var(--card);border:1px solid var(--border);border-radius:12px;text-align:center">
+    <div style="font-size:9px;font-weight:700;color:var(--sub);letter-spacing:2px;margin-bottom:10px">ACCEPTED PAYMENT METHODS</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;font-size:11px;font-weight:600;color:var(--sub)">
+      <span style="background:var(--s1);border:1px solid var(--border);border-radius:6px;padding:5px 10px">💳 Visa</span>
+      <span style="background:var(--s1);border:1px solid var(--border);border-radius:6px;padding:5px 10px">💳 Mastercard</span>
+      <span style="background:var(--s1);border:1px solid var(--border);border-radius:6px;padding:5px 10px">💳 Amex</span>
+      <span style="background:var(--s1);border:1px solid var(--border);border-radius:6px;padding:5px 10px">🏦 EFT / Bank Transfer</span>
+      <span style="background:var(--s1);border:1px solid var(--border);border-radius:6px;padding:5px 10px">🌍 195+ Countries</span>
+    </div>
+    <div style="font-size:10px;color:var(--sub);margin-top:10px;line-height:1.5">Stripe is trusted by millions of businesses worldwide including Amazon, Shopify, and Google. Your card details are never seen by us — processed securely by Stripe.</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TESTIMONIALS (placeholder — replace with real ones once you have them) -->
+<section>
+  <div class="section-eyebrow">EARLY SUBSCRIBERS</div>
+  <h2 class="section-title">What traders are saying</h2>
+  <div class="testimonial">
+    <div class="stars">★★★★★</div>
+    <div class="testimonial-text">"The signals come with full analysis — not just price levels. I actually understand why I'm in the trade, which has changed how I manage it."</div>
+    <div class="testimonial-author">
+      <div class="testimonial-avatar">TM</div>
+      <div>
+        <div class="testimonial-name">Thabo M.</div>
+        <div class="testimonial-sub">Subscriber · Johannesburg</div>
+      </div>
+    </div>
+  </div>
+  <div class="testimonial">
+    <div class="stars">★★★★★</div>
+    <div class="testimonial-text">"Gold and NAS100 have been the cleanest setups — hit TP2 on both my first week. The timing for SA hours is spot on."</div>
+    <div class="testimonial-author">
+      <div class="testimonial-avatar">KN</div>
+      <div>
+        <div class="testimonial-name">Kefilwe N.</div>
+        <div class="testimonial-sub">Subscriber · Cape Town</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FAQ -->
+<section>
+  <div class="section-eyebrow">QUESTIONS</div>
+  <h2 class="section-title">Frequently asked</h2>
+  <div class="faq-list">
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">How many signals are sent per week? <span class="faq-icon">+</span></div>
+      <div class="faq-a">Typically 3–8 signals per week, depending on market conditions. Quality is the priority — a week with no valid setups is better than forcing low-probability trades. Signals cover the London open and NY open windows, which are the highest-probability times for South African traders.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">Do I need trading experience? <span class="faq-icon">+</span></div>
+      <div class="faq-a">Basic familiarity with MetaTrader 5 and how to place orders is helpful. Each signal includes the order type (market, buy limit, sell stop etc.) and all price levels, so you don't need to analyse charts yourself. We recommend starting with the free trial to learn the format before going live with real money.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">Which broker do I need? <span class="faq-icon">+</span></div>
+      <div class="faq-a">Signals are optimised for XM broker on MT5 (the most widely used broker for our instruments across SA, Africa, the Middle East, and Europe). The lot sizing guidance is calibrated for XM's nano account. Any MT5 broker offering gold, indices, and forex will work — just adjust position sizes for your broker's contract specifications. XM accepts clients from over 190 countries.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">Are results guaranteed? <span class="faq-icon">+</span></div>
+      <div class="faq-a">No. Trading involves risk and past performance does not guarantee future results. Every signal has a defined stop loss — losing trades are a normal part of any trading strategy. The edge comes from consistently positive expectancy over many trades, not from winning every single one. Our track record is fully transparent so you can judge the historical performance yourself.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">How do I receive the signals? <span class="faq-icon">+</span></div>
+      <div class="faq-a">After subscribing, you receive an invite to a private Telegram channel within minutes. Signals, TP/SL update messages, and weekly briefs (Pro plan) all arrive in that channel. Enable Telegram notifications so you don't miss entries.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">How do I cancel? <span class="faq-icon">+</span></div>
+      <div class="faq-a">Message us directly on WhatsApp or Telegram and cancellation happens immediately. No notice period, no penalty. You keep access until the end of the billing period you've paid for.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">What minimum account size do I need? <span class="faq-icon">+</span></div>
+      <div class="faq-a">Signals include lot size guidance for accounts from R1,000 (XM nano) upward. A larger account gives you more sizing flexibility and can absorb drawdown periods more comfortably — R5,000+ is ideal to follow all signals at 1% risk per trade.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FINAL CTA -->
+<section style="text-align:center;padding:52px 20px">
+  <div class="hero-eyebrow" style="display:inline-flex;margin-bottom:20px">
+    <div class="hero-eyebrow-dot"></div>
+    FREE TRIAL AVAILABLE
+  </div>
+  <h2 class="section-title" style="margin-bottom:10px">Ready to trade with an edge?</h2>
+  <p style="font-size:14px;color:var(--sub);margin-bottom:28px;line-height:1.65">7 days free. Full access. No card required.<br>If it doesn't work for you, walk away — no questions asked.</p>
+  <a class="btn-primary" href="#" onclick="openTrial(event)" style="max-width:340px;margin:0 auto;display:block">Start Your Free Trial →</a>
+  <div class="guarantee" style="margin-top:14px">🔒 Secure &nbsp;·&nbsp; No commitment &nbsp;·&nbsp; Cancel any time</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">ATLAS SIGNALS</div>
+  <div class="footer-links">
+    <a href="#pricing">Pricing</a>
+    <a href="#track-record">Track Record</a>
+    <a id="footerTgLink" href="#">Telegram</a>
+    <a id="footerWaLink" href="#">WhatsApp</a>
+  </div>
+  <div class="footer-disclaimer">
+    Trading foreign exchange and CFDs on margin carries a high level of risk and may not be suitable for all investors. Past performance is not indicative of future results. The information provided on this page is for educational purposes only and does not constitute financial advice. Never risk money you cannot afford to lose.
+  </div>
+  <div style="margin-top:16px;font-size:10px;color:var(--sub);opacity:0.5">© 2026 ATLAS Signals · South Africa</div>
+</footer>
+
+<!-- STICKY CTA -->
+<div class="sticky-cta" id="stickyCTA">
+  <a class="btn-primary" href="#" onclick="scrollToPricing();event.preventDefault()">Start 7-Day Free Trial — Free →</a>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════
+// CONFIG — fill these in before going live
+// ══════════════════════════════════════════════════
+const CFG = {
+  // ── STRIPE PAYMENT LINKS ─────────────────────────────────────────
+  // Create these in your Stripe dashboard (stripe.com):
+  // Dashboard → Payment Links → Create Link → Recurring → set price → copy URL
+  // Stripe accepts cards from 195 countries. Payouts land in your SA bank in ZAR.
+  stripe_standard: 'https://buy.stripe.com/XXXXXXXXXXXXXXXX',  // R149/mo link
+  stripe_pro:      'https://buy.stripe.com/XXXXXXXXXXXXXXXX',  // R299/mo link
+
+  // ── TELEGRAM ────────────────────────────────────────────────────
+  tg_trial_link:    'https://t.me/+XXXXXXXXXXXXXXXX',  // private invite (7-day trial)
+  tg_channel_public:'https://t.me/atlassignals',       // public handle
+
+  // ── WHATSAPP (fallback / EFT manual payment) ─────────────────────
+  whatsapp: 'https://wa.me/27XXXXXXXXX',               // your number in intl format
+
+  // ── SITE URL (for Stripe return/cancel redirects) ────────────────
+  site_url: window.location.origin + window.location.pathname,
+};
+
+// Apply config-driven links
+document.getElementById('footerTgLink').href = CFG.tg_channel_public;
+document.getElementById('footerWaLink').href = CFG.whatsapp;
+
+// ══════════════════════════════════════════════════
+// LOAD LIVE DATA FROM SIGNAL DASHBOARD (same origin)
+// ══════════════════════════════════════════════════
+function loadSignalData(){
+  try{
+    const raw = localStorage.getItem('atlas_signals_v1');
+    return raw ? JSON.parse(raw) : [];
+  }catch{ return []; }
+}
+
+function loadSignalCfg(){
+  try{
+    const raw = localStorage.getItem('atlas_signals_cfg');
+    return raw ? JSON.parse(raw) : {};
+  }catch{ return {}; }
+}
+
+// ══════════════════════════════════════════════════
+// POPULATE STATS
+// ══════════════════════════════════════════════════
+function populateStats(){
+  const signals = loadSignalData();
+  const cfg = loadSignalCfg();
+  const closed = signals.filter(s=>['TP1_HIT','TP2_HIT','SL_HIT','BREAKEVEN'].includes(s.status));
+  const wins = closed.filter(s=>s.status==='TP1_HIT'||s.status==='TP2_HIT');
+  const losses = closed.filter(s=>s.status==='SL_HIT');
+  const wr = closed.length ? Math.round(wins.length/closed.length*100) : null;
+  const totalR = closed.reduce((s,t)=>s+(t.resultR||0),0);
+  const active = signals.filter(s=>s.status==='ACTIVE'||s.status==='PENDING');
+
+  // Hero stats
+  document.getElementById('hs-wr').textContent = wr!=null ? wr+'%' : '--';
+  document.getElementById('hs-r').textContent = totalR ? (totalR>=0?'+':'')+totalR.toFixed(1)+'R' : '--';
+  document.getElementById('hs-sigs').textContent = signals.length || '--';
+
+  // Track record section
+  document.getElementById('tr-wr').textContent = wr!=null ? wr+'%' : '--';
+  document.getElementById('tr-r').textContent = (totalR>=0?'+':'')+totalR.toFixed(1)+'R';
+  document.getElementById('tr-rsub').textContent = 'Over '+closed.length+' closed trades';
+  document.getElementById('tr-wl').textContent = wins.length+'W · '+losses.length+'L of '+closed.length+' closed';
+  document.getElementById('tr-sigs').textContent = signals.length;
+  document.getElementById('tr-active').textContent = active.length + ' currently active';
+
+  // Streak
+  let streak=0, sType='';
+  const sorted=[...signals].filter(s=>s.closedAt).sort((a,b)=>new Date(b.closedAt)-new Date(a.closedAt));
+  for(const s of sorted){
+    const w=s.status==='TP1_HIT'||s.status==='TP2_HIT', l=s.status==='SL_HIT';
+    if(!w&&!l) break;
+    if(streak===0) sType=w?'W':'L';
+    if((w&&sType==='W')||(l&&sType==='L')) streak++; else break;
+  }
+  document.getElementById('tr-streak').textContent = streak ? streak+' '+sType : '--';
+  document.getElementById('tr-streak').style.color = sType==='W' ? 'var(--mint)' : sType==='L' ? 'var(--red)' : 'var(--gold)';
+
+  // Recent signals list
+  document.getElementById('rsLive').textContent = active.length ? active.length+' LIVE' : '';
+  const recents = [...signals].filter(s=>s.status!=='CANCELLED').sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)).slice(0,6);
+  const fmtP = v => v?parseFloat(v).toString():'--';
+  document.getElementById('recentSignalsList').innerHTML = recents.length ? recents.map(s=>{
+    const isWin=s.status==='TP1_HIT'||s.status==='TP2_HIT';
+    const isLoss=s.status==='SL_HIT';
+    const isActive=s.status==='ACTIVE'||s.status==='PENDING';
+    const rColor = isWin?'var(--mint)':isLoss?'var(--red)':isActive?'var(--cyan)':'var(--sub)';
+    const rText = s.resultR!=null?(s.resultR>=0?'+':'')+s.resultR.toFixed(1)+'R':isActive?'LIVE':'--';
+    return `<div class="rs-row">
+      <div>
+        <span class="rs-pair">${s.pair}</span>
+        <span class="rs-dir" style="background:${s.direction==='LONG'?'rgba(0,255,148,0.1)':'rgba(255,69,96,0.1)'};color:${s.direction==='LONG'?'var(--mint)':'var(--red)'}">${s.direction}</span>
+        <div class="rs-setup" style="margin-top:3px">${s.setup||s.session||''}</div>
+      </div>
+      <div class="rs-r" style="color:${rColor}">${rText}</div>
+    </div>`;
+  }).join('') : `<div style="padding:20px;text-align:center;font-size:12px;color:var(--sub)">Signal history loads from the Signal Dashboard on the same domain.</div>`;
+}
+
+// ══════════════════════════════════════════════════
+// TICKER TAPE
+// ══════════════════════════════════════════════════
+const FALLBACK_TICKS = [
+  {pair:'XAUUSD',dir:'LONG',entry:'2341.50',r:'+2.1R',win:true,label:'Gold · London OB Sweep'},
+  {pair:'GBPJPY',dir:'LONG',entry:'214.80',r:'+1.9R',win:true,label:'GBP/JPY · London Open'},
+  {pair:'US100',dir:'SHORT',entry:'19480',r:'-1R',win:false,label:'NAS100 · NY Open Rejection'},
+  {pair:'XAUUSD',dir:'SHORT',entry:'2388.00',r:'+3.1R',win:true,label:'Gold · Weekly Supply OB'},
+  {pair:'EURUSD',dir:'LONG',entry:'1.0845',r:'+2.0R',win:true,label:'EUR/USD · FVG Fill'},
+  {pair:'DE40',dir:'LONG',entry:'18320',r:'LIVE',win:null,label:'DAX · Frankfurt Open'},
+  {pair:'XAGUSD',dir:'LONG',entry:'29.15',r:'+1.8R',win:true,label:'Silver · Demand Zone'},
+  {pair:'CHFJPY',dir:'SHORT',entry:'172.40',r:'+2.5R',win:true,label:'CHF/JPY · Premium Zone'},
+];
+
+function buildTicker(){
+  const signals = loadSignalData();
+  let ticks = signals.length >= 4 ? signals.slice(0,12).map(s=>({
+    pair:s.pair, dir:s.direction,
+    entry:s.entry, r:s.resultR!=null?(s.resultR>=0?'+':'')+s.resultR.toFixed(1)+'R':s.status==='ACTIVE'?'LIVE':'--',
+    win:s.status==='TP1_HIT'||s.status==='TP2_HIT',
+    isLive:s.status==='ACTIVE'||s.status==='PENDING',
+    label:s.setup||s.session||''
+  })) : FALLBACK_TICKS;
+  // Duplicate for seamless loop
+  const all = [...ticks,...ticks];
+  const el = document.getElementById('tickerInner');
+  el.innerHTML = all.map(t=>`<div class="tick-item">
+    <span class="tick-pair">${t.pair}</span>
+    <span class="tick-dir ${t.dir==='LONG'?'tick-long':'tick-short'}">${t.dir}</span>
+    ${t.entry?`<span style="color:var(--sub)">${parseFloat(t.entry).toString()}</span>`:''}
+    <span class="tick-result ${t.isLive?'tick-live':t.win===true?'tick-win':t.win===false?'tick-loss':''}">${t.r}</span>
+    ${t.label?`<span style="color:var(--sub)">${t.label}</span>`:''}
+  </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════
+// STRIPE CHECKOUT (universal — works in any country)
+// ══════════════════════════════════════════════════
+function stripeCheckout(e, plan){
+  e.preventDefault();
+  const links = { standard: CFG.stripe_standard, pro: CFG.stripe_pro };
+  const link = links[plan];
+  const planLabels = { standard: 'Standard ($8/month · R149/month)', pro: 'Pro ($16/month · R299/month)' };
+
+  if(!link || link.includes('XXXXX')){
+    // Stripe not yet configured — open WhatsApp with pre-filled subscription request
+    const msg = encodeURIComponent(`Hi, I'd like to subscribe to ATLAS Signals ${planLabels[plan]}. Could you send me the payment link or EFT details?`);
+    window.open(CFG.whatsapp + '?text=' + msg, '_blank');
+    return;
+  }
+  // Open Stripe payment link in same tab (Stripe handles success/cancel redirect)
+  window.location.href = link;
+}
+
+// Legacy alias so any existing onclick="payFast(...)" still works during transition
+function payFast(e, plan){ stripeCheckout(e, plan); }
+
+// ══════════════════════════════════════════════════
+// CURRENCY TOGGLE (ZAR / USD)
+// ══════════════════════════════════════════════════
+const PRICES = {
+  ZAR: { standard: { sym:'R', amt:'149', btn:'Subscribe — R149/month' },
+         pro:      { sym:'R', amt:'299', btn:'Subscribe — R299/month' },
+         note:'Prices in South African Rand · Secure card payment via Stripe · Cancel anytime' },
+  USD: { standard: { sym:'$', amt:'8',   btn:'Subscribe — $8/month' },
+         pro:      { sym:'$', amt:'16',  btn:'Subscribe — $16/month' },
+         note:'Prices in US Dollars · Stripe accepts cards from 195+ countries · Cancel anytime' }
+};
+
+function setCurrency(ccy){
+  const p = PRICES[ccy];
+  // Toggle button styles
+  document.getElementById('ccy-zar').style.background = ccy==='ZAR' ? 'var(--cyan)' : 'transparent';
+  document.getElementById('ccy-zar').style.color      = ccy==='ZAR' ? '#080A0F' : 'var(--sub)';
+  document.getElementById('ccy-usd').style.background = ccy==='USD' ? 'var(--cyan)' : 'transparent';
+  document.getElementById('ccy-usd').style.color      = ccy==='USD' ? '#080A0F' : 'var(--sub)';
+  // Update prices
+  document.getElementById('std-price').innerHTML = `<sup>${p.standard.sym}</sup>${p.standard.amt} <span class="period">/ month</span>`;
+  document.getElementById('pro-price').innerHTML = `<sup>${p.pro.sym}</sup>${p.pro.amt} <span class="period">/ month</span>`;
+  document.getElementById('standardBtn').textContent = p.standard.btn;
+  document.getElementById('proBtn').textContent = p.pro.btn;
+  document.getElementById('pricing-note').textContent = p.note;
+}
+
+// ══════════════════════════════════════════════════
+// EFT / BANK TRANSFER FALLBACK
+// ══════════════════════════════════════════════════
+function eftContact(e, plan){
+  e.preventDefault();
+  const labels = { standard:'Standard (R149/month or $8/month)', pro:'Pro (R299/month or $16/month)' };
+  const msg = encodeURIComponent(`Hi, I'd like to subscribe to ATLAS Signals ${labels[plan]} via EFT/bank transfer. Please send me the bank details and I'll send proof of payment.`);
+  window.open(CFG.whatsapp + '?text=' + msg, '_blank');
+}
+
+function openTrial(e){
+  e.preventDefault();
+  if(CFG.tg_trial_link.includes('XXXXX')){
+    const msg = encodeURIComponent("Hi, I'd like to start the free 7-day trial for ATLAS Signals. Please send me the Telegram invite link.");
+    window.open(CFG.whatsapp+'?text='+msg,'_blank');
+  } else {
+    window.open(CFG.tg_trial_link,'_blank');
+  }
+}
+
+// ══════════════════════════════════════════════════
+// UI HELPERS
+// ══════════════════════════════════════════════════
+function scrollToPricing(){
+  document.getElementById('pricing').scrollIntoView({behavior:'smooth'});
+}
+function toggleFAQ(el){
+  el.classList.toggle('open');
+}
+
+// Sticky CTA on scroll
+let heroBottom = 0;
+function updateSticky(){
+  const hero = document.querySelector('.hero');
+  if(!hero) return;
+  heroBottom = hero.getBoundingClientRect().bottom;
+  document.getElementById('stickyCTA').classList.toggle('show', heroBottom < 0);
+}
+window.addEventListener('scroll', updateSticky, {passive:true});
+
+// Pricing CTA after payment redirect
+const params = new URLSearchParams(window.location.search);
+if(params.get('subscribed')==='1'){
+  setTimeout(()=>alert('Thank you for subscribing! Your Telegram invite will arrive within minutes. Check your email.'),500);
+}
+
+// ══════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════
+buildTicker();
+populateStats();
+</script>
+</body>
+</html>
