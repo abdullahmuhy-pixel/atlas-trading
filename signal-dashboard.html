@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#0B0D12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>ATLAS Signals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0B0D12;--surface:#13161E;--raised:#1A1D27;--card:#1E2230;
+  --cyan:#00D4FF;--cyan-dim:rgba(0,212,255,0.12);--cyan-mid:rgba(0,212,255,0.25);
+  --green:#00C896;--green-dim:rgba(0,200,150,0.12);
+  --red:#FF3B5C;--red-dim:rgba(255,59,92,0.12);
+  --amber:#FFB800;--amber-dim:rgba(255,184,0,0.12);
+  --text:#E8EAF0;--muted:#5A607A;--border:rgba(255,255,255,0.07);
+  --font:'Space Grotesk',sans-serif;--mono:'Space Mono',monospace;--display:'Syne',sans-serif;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font);overflow-x:hidden}
+
+/* ── HEADER ── */
+.header{position:sticky;top:0;z-index:100;background:rgba(11,13,18,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 16px}
+.header-inner{display:flex;align-items:center;justify-content:space-between;height:54px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-icon{width:32px;height:32px;background:var(--cyan-dim);border:1px solid var(--cyan-mid);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.brand-icon svg{width:16px;height:16px;fill:var(--cyan)}
+.brand-name{font-family:var(--display);font-size:16px;font-weight:800;letter-spacing:1px;color:var(--text)}
+.brand-sub{font-size:9px;color:var(--muted);letter-spacing:2px;font-weight:500;margin-top:-2px}
+.on-air{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--cyan)}
+.on-air-dot{width:7px;height:7px;background:var(--cyan);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,212,255,0.4)}50%{opacity:0.7;box-shadow:0 0 0 6px rgba(0,212,255,0)}}
+.on-air.off{color:var(--muted)}
+.on-air.off .on-air-dot{background:var(--muted);animation:none}
+.header-actions{display:flex;gap:8px}
+.btn-icon{width:36px;height:36px;background:var(--raised);border:1px solid var(--border);border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted)}
+.btn-icon:active{opacity:0.7}
+
+/* ── NAV ── */
+.nav{position:sticky;top:55px;z-index:90;background:rgba(11,13,18,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav-tab{flex:1;min-width:64px;padding:12px 8px;text-align:center;font-size:10px;font-weight:700;letter-spacing:1px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:color 0.15s}
+.nav-tab.active{color:var(--cyan);border-bottom-color:var(--cyan)}
+
+/* ── STATS BAR ── */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
+.stat-cell{background:var(--bg);padding:12px 10px;text-align:center}
+.stat-val{font-family:var(--mono);font-size:16px;font-weight:700;line-height:1}
+.stat-lbl{font-size:8px;color:var(--muted);letter-spacing:1px;margin-top:3px;font-weight:600}
+
+/* ── MAIN ── */
+.main{padding:14px 14px 80px}
+.pane{display:none}
+.pane.active{display:block}
+
+/* ── SIGNAL CARDS ── */
+.signal-card{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:10px;overflow:hidden;transition:border-color 0.2s}
+.signal-card.long{border-left:3px solid var(--green)}
+.signal-card.short{border-left:3px solid var(--red)}
+.signal-card.closed-win{border-left:3px solid var(--green);opacity:0.75}
+.signal-card.closed-loss{border-left:3px solid var(--red);opacity:0.75}
+.signal-card.closed-be{border-left:3px solid var(--muted);opacity:0.7}
+.signal-card.expired{opacity:0.5}
+.sig-head{display:flex;align-items:center;justify-content:space-between;padding:11px 14px 8px}
+.sig-pair{font-family:var(--display);font-size:18px;font-weight:800;letter-spacing:0.5px}
+.sig-dir{display:flex;align-items:center;gap:5px}
+.dir-badge{font-size:9px;font-weight:700;letter-spacing:1.5px;padding:3px 8px;border-radius:6px}
+.dir-badge.long{background:var(--green-dim);color:var(--green)}
+.dir-badge.short{background:var(--red-dim);color:var(--red)}
+.sig-status{font-size:9px;font-weight:700;letter-spacing:1px;padding:3px 9px;border-radius:20px}
+.status-active{background:var(--cyan-dim);color:var(--cyan)}
+.status-pending{background:var(--amber-dim);color:var(--amber)}
+.status-win{background:var(--green-dim);color:var(--green)}
+.status-loss{background:var(--red-dim);color:var(--red)}
+.status-be{background:rgba(90,96,122,0.2);color:var(--muted)}
+.status-expired{background:rgba(90,96,122,0.15);color:var(--muted)}
+.sig-levels{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 14px 10px}
+.sig-level{background:var(--raised);border-radius:8px;padding:7px 6px;text-align:center}
+.sig-level-val{font-family:var(--mono);font-size:11px;font-weight:700;line-height:1}
+.sig-level-lbl{font-size:8px;color:var(--muted);letter-spacing:0.5px;margin-top:2px}
+.sig-meta{display:flex;align-items:center;gap:8px;padding:8px 14px;border-top:1px solid var(--border);flex-wrap:wrap}
+.sig-meta-chip{font-size:9px;color:var(--muted);background:var(--raised);padding:3px 8px;border-radius:5px;font-weight:500}
+.sig-meta-chip.conf{color:var(--amber)}
+.sig-actions{display:flex;gap:6px;padding:8px 14px;border-top:1px solid var(--border)}
+.sig-btn{flex:1;padding:9px;border:none;border-radius:9px;font-size:10px;font-weight:700;letter-spacing:0.5px;cursor:pointer;font-family:var(--font)}
+.sig-btn.hit{background:var(--green-dim);color:var(--green)}
+.sig-btn.loss{background:var(--red-dim);color:var(--red)}
+.sig-btn.be{background:rgba(90,96,122,0.2);color:var(--muted)}
+.sig-btn.push{background:var(--cyan-dim);color:var(--cyan);border:1px solid var(--cyan-mid)}
+.sig-btn.del{background:rgba(255,59,92,0.08);color:var(--red)}
+.sig-btn.cancel{background:rgba(90,96,122,0.15);color:var(--muted)}
+.sig-result{padding:10px 14px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.sig-result-r{font-family:var(--mono);font-size:18px;font-weight:700}
+
+/* ── BROADCAST STATUS ── */
+.broadcast-status{background:var(--raised);border:1px solid var(--border);border-radius:12px;padding:13px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+.bs-left{display:flex;align-items:center;gap:10px}
+.bs-dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);animation:pulse 2s ease-in-out infinite}
+.bs-dot.off{background:var(--muted);animation:none}
+
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:48px 24px}
+.empty-icon{font-size:40px;margin-bottom:12px;opacity:0.5}
+.empty-title{font-size:14px;font-weight:600;color:var(--muted);margin-bottom:6px}
+.empty-body{font-size:12px;color:var(--muted);opacity:0.7;line-height:1.6}
+
+/* ── FORMS ── */
+.form-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px}
+.form-title{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1.5px;margin-bottom:14px}
+.fg{margin-bottom:12px}
+.fl{display:block;font-size:9px;font-weight:700;color:var(--muted);letter-spacing:1px;margin-bottom:5px}
+.fi{width:100%;background:var(--raised);border:1px solid var(--border);border-radius:9px;padding:10px 12px;color:var(--text);font-size:13px;font-family:var(--font);outline:none}
+.fi:focus{border-color:var(--cyan-mid)}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fgrid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+select.fi{cursor:pointer}
+.fi-mono{font-family:var(--mono)}
+.submit-btn{width:100%;padding:14px;background:var(--cyan);color:#0B0D12;border:none;border-radius:11px;font-size:13px;font-weight:700;font-family:var(--font);letter-spacing:0.5px;cursor:pointer;margin-top:4px}
+.submit-btn:active{opacity:0.85}
+.submit-btn.secondary{background:var(--raised);color:var(--cyan);border:1px solid var(--cyan-mid)}
+.import-banner{background:var(--cyan-dim);border:1px solid var(--cyan-mid);border-radius:10px;padding:11px 14px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.import-banner-text{font-size:11px;color:var(--cyan);font-weight:600}
+.import-banner-sub{font-size:10px;color:var(--muted);margin-top:2px}
+
+/* ── PERFORMANCE ── */
+.perf-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.perf-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px}
+.perf-val{font-family:var(--mono);font-size:22px;font-weight:700;line-height:1;margin-bottom:4px}
+.perf-lbl{font-size:9px;color:var(--muted);letter-spacing:1px;font-weight:600}
+.perf-sub{font-size:10px;color:var(--muted);margin-top:4px}
+.equity-line{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px}
+.equity-title{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1px;margin-bottom:12px}
+.chart-wrap{height:80px;position:relative;overflow:hidden}
+.chart-wrap svg{width:100%;height:100%}
+.month-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border)}
+.month-row:last-child{border-bottom:none}
+.month-name{font-size:11px;color:var(--muted);width:50px}
+.month-bar-wrap{flex:1;height:6px;background:var(--raised);border-radius:3px;margin:0 12px;overflow:hidden}
+.month-bar{height:100%;border-radius:3px}
+.month-val{font-family:var(--mono);font-size:11px;font-weight:700;width:50px;text-align:right}
+
+/* ── SHARE / SETTINGS ── */
+.share-card{background:var(--cyan-dim);border:1px solid var(--cyan-mid);border-radius:14px;padding:16px;margin-bottom:10px}
+.share-title{font-size:13px;font-weight:700;color:var(--cyan);margin-bottom:6px}
+.share-url{font-family:var(--mono);font-size:10px;color:var(--muted);word-break:break-all;margin-bottom:10px;line-height:1.5}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:20px 20px 0 0;padding:20px 18px 36px;width:100%;max-height:90vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1)}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 18px}
+.modal-title{font-family:var(--display);font-size:16px;font-weight:800;margin-bottom:16px}
+
+/* ── TOAST ── */
+.toast-wrap{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:300;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none}
+.toast{background:var(--raised);border:1px solid var(--border);border-radius:20px;padding:8px 16px;font-size:12px;font-weight:600;color:var(--text);opacity:0;transform:translateY(10px);transition:all 0.25s;max-width:280px;text-align:center}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* ── PUBLIC VIEW ── */
+.public-header{background:linear-gradient(135deg,var(--surface) 0%,#0D1520 100%);border-bottom:1px solid var(--border);padding:24px 18px 20px}
+.public-brand{font-family:var(--display);font-size:22px;font-weight:800;color:var(--cyan);letter-spacing:1px;margin-bottom:2px}
+.public-sub{font-size:11px;color:var(--muted);letter-spacing:2px}
+.badge-live{display:inline-flex;align-items:center;gap:5px;background:var(--cyan-dim);border:1px solid var(--cyan-mid);border-radius:20px;padding:3px 10px;font-size:9px;font-weight:700;color:var(--cyan);letter-spacing:1px;margin-top:8px}
+
+/* ── FAB ── */
+.fab{position:fixed;bottom:20px;right:18px;z-index:150;width:54px;height:54px;background:var(--cyan);border-radius:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 20px rgba(0,212,255,0.35);border:none}
+.fab svg{width:22px;height:22px;fill:#0B0D12}
+.fab:active{transform:scale(0.95)}
+</style>
+</head>
+<body>
+
+<div id="app">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 16 16"><path d="M8 1L10.5 6H15L11 9.5L12.5 15L8 12L3.5 15L5 9.5L1 6H5.5L8 1Z"/></svg>
+      </div>
+      <div>
+        <div class="brand-name">ATLAS SIGNALS</div>
+        <div class="brand-sub">BY ATLAS MARKET INTELLIGENCE</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="on-air off" id="onAirBadge"><div class="on-air-dot"></div>ON AIR</div>
+      <div class="btn-icon" onclick="window.open('atlas.html','_blank')" title="Open ATLAS">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
+      </div>
+      <div class="btn-icon" onclick="openSettings()">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="nav-tab active" id="tab-live" onclick="switchTab('live')">LIVE</div>
+  <div class="nav-tab" id="tab-new" onclick="switchTab('new')">NEW SIGNAL</div>
+  <div class="nav-tab" id="tab-history" onclick="switchTab('history')">HISTORY</div>
+  <div class="nav-tab" id="tab-performance" onclick="switchTab('performance')">PERFORMANCE</div>
+  <div class="nav-tab" id="tab-share" onclick="switchTab('share')">SHARE</div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-cell">
+    <div class="stat-val" id="stat-wr" style="color:var(--green)">--</div>
+    <div class="stat-lbl">WIN RATE</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-val" id="stat-total">0</div>
+    <div class="stat-lbl">SIGNALS</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-val" id="stat-r" style="color:var(--cyan)">0R</div>
+    <div class="stat-lbl">TOTAL R</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-val" id="stat-streak" style="color:var(--amber)">--</div>
+    <div class="stat-lbl">STREAK</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- LIVE PANE -->
+  <div class="pane active" id="pane-live">
+    <div class="broadcast-status">
+      <div class="bs-left">
+        <div class="bs-dot off" id="bsDot"></div>
+        <div>
+          <div style="font-size:12px;font-weight:700" id="bsTitle">No Active Signals</div>
+          <div style="font-size:10px;color:var(--muted)" id="bsSub">Publish a signal to go live</div>
+        </div>
+      </div>
+      <div style="font-size:10px;color:var(--muted)" id="bsTime"></div>
+    </div>
+    <div id="live-signals"></div>
+  </div>
+
+  <!-- NEW SIGNAL PANE -->
+  <div class="pane" id="pane-new">
+    <div class="import-banner" id="importBanner" style="display:none" onclick="importFromAtlas()">
+      <div>
+        <div class="import-banner-text">⚡ Import from ATLAS</div>
+        <div class="import-banner-sub">Last analysis detected — tap to pre-fill</div>
+      </div>
+      <div style="color:var(--cyan);font-size:18px">→</div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-title">INSTRUMENT</div>
+      <div class="fgrid">
+        <div class="fg">
+          <label class="fl">PAIR</label>
+          <input class="fi fi-mono" id="n-pair" placeholder="XAUUSD" style="text-transform:uppercase;font-size:15px;font-weight:700" oninput="this.value=this.value.toUpperCase()">
+        </div>
+        <div class="fg">
+          <label class="fl">DIRECTION</label>
+          <select class="fi" id="n-dir">
+            <option value="LONG">▲ LONG (BUY)</option>
+            <option value="SHORT">▼ SHORT (SELL)</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg">
+        <label class="fl">ORDER TYPE</label>
+        <select class="fi" id="n-order">
+          <option value="MARKET">Market Order (immediate)</option>
+          <option value="BUY LIMIT">Buy Limit (price comes down to entry)</option>
+          <option value="SELL LIMIT">Sell Limit (price comes up to entry)</option>
+          <option value="BUY STOP">Buy Stop (breakout long)</option>
+          <option value="SELL STOP">Sell Stop (breakout short)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-title">PRICE LEVELS</div>
+      <div class="fgrid">
+        <div class="fg">
+          <label class="fl">ENTRY</label>
+          <input class="fi fi-mono" id="n-entry" placeholder="2345.00" type="number" step="any">
+        </div>
+        <div class="fg">
+          <label class="fl">ENTRY HIGH (zone)</label>
+          <input class="fi fi-mono" id="n-entry2" placeholder="optional" type="number" step="any">
+        </div>
+      </div>
+      <div class="fgrid3">
+        <div class="fg">
+          <label class="fl">STOP LOSS</label>
+          <input class="fi fi-mono" id="n-sl" placeholder="2320.00" type="number" step="any" oninput="calcRR()">
+        </div>
+        <div class="fg">
+          <label class="fl">TP1</label>
+          <input class="fi fi-mono" id="n-tp1" placeholder="2370.00" type="number" step="any" oninput="calcRR()">
+        </div>
+        <div class="fg">
+          <label class="fl">TP2</label>
+          <input class="fi fi-mono" id="n-tp2" placeholder="2400.00" type="number" step="any">
+        </div>
+      </div>
+      <div style="background:var(--raised);border-radius:9px;padding:10px 12px;font-size:11px;color:var(--muted)" id="rr-display">Enter entry, SL and TP1 to calculate R:R</div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-title">SIGNAL CONTEXT</div>
+      <div class="fgrid">
+        <div class="fg">
+          <label class="fl">SESSION</label>
+          <select class="fi" id="n-session">
+            <option value="London Open">London Open (10:00 SAST)</option>
+            <option value="NY Open">NY Open (15:00 SAST)</option>
+            <option value="London-NY Overlap">London-NY Overlap</option>
+            <option value="Asian Session">Asian Session</option>
+            <option value="Pre-Market">Pre-Market</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label class="fl">CONFLUENCE (1–10)</label>
+          <select class="fi" id="n-conf">
+            <option value="10">10/10 — Maximum</option>
+            <option value="9">9/10 — Excellent</option>
+            <option value="8" selected>8/10 — Strong</option>
+            <option value="7">7/10 — Good</option>
+            <option value="6">6/10 — Moderate</option>
+            <option value="5">5/10 — Weak</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg">
+        <label class="fl">SETUP NAME</label>
+        <input class="fi" id="n-setup" placeholder="e.g. SMC Order Block + FVG Fill + Liquidity Sweep">
+      </div>
+      <div class="fg">
+        <label class="fl">NOTES (optional — not sent to Telegram)</label>
+        <textarea class="fi" id="n-notes" rows="2" placeholder="Internal notes..." style="resize:none;line-height:1.5"></textarea>
+      </div>
+    </div>
+
+    <div class="fg">
+      <label class="fl">SIGNAL STATUS</label>
+      <select class="fi" id="n-status">
+        <option value="ACTIVE">Active — push now, market order or already triggered</option>
+        <option value="PENDING">Pending — waiting for price to reach entry zone</option>
+      </select>
+    </div>
+
+    <button class="submit-btn" onclick="createSignal(true)">📡 PUSH TO TELEGRAM & SAVE</button>
+    <div style="height:8px"></div>
+    <button class="submit-btn secondary" onclick="createSignal(false)">SAVE WITHOUT PUSHING</button>
+  </div>
+
+  <!-- HISTORY PANE -->
+  <div class="pane" id="pane-history">
+    <div style="display:flex;gap:8px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px">
+      <button class="fi" style="padding:6px 14px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap;width:auto;border-radius:20px" onclick="filterHistory('ALL')" id="hf-ALL">ALL</button>
+      <button class="fi" style="padding:6px 14px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap;width:auto;border-radius:20px;color:var(--green)" onclick="filterHistory('WIN')" id="hf-WIN">WINS</button>
+      <button class="fi" style="padding:6px 14px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap;width:auto;border-radius:20px;color:var(--red)" onclick="filterHistory('LOSS')" id="hf-LOSS">LOSSES</button>
+      <button class="fi" style="padding:6px 14px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap;width:auto;border-radius:20px;color:var(--muted)" onclick="filterHistory('EXPIRED')" id="hf-EXPIRED">EXPIRED</button>
+    </div>
+    <div id="history-signals"></div>
+  </div>
+
+  <!-- PERFORMANCE PANE -->
+  <div class="pane" id="pane-performance">
+    <div class="perf-grid" id="perf-grid"></div>
+    <div class="equity-line" id="equity-curve"></div>
+    <div class="equity-line" id="monthly-breakdown"></div>
+  </div>
+
+  <!-- SHARE PANE -->
+  <div class="pane" id="pane-share">
+    <div class="share-card">
+      <div class="share-title">📡 Public Performance Link</div>
+      <div class="share-url" id="shareUrl"></div>
+      <button class="submit-btn" onclick="copyShareLink()">COPY LINK</button>
+    </div>
+    <div class="form-card">
+      <div class="form-title">CHANNEL BRANDING</div>
+      <div class="fg"><label class="fl">CHANNEL NAME</label><input class="fi" id="s-name" placeholder="ATLAS Signals" oninput="saveCfg()"></div>
+      <div class="fg"><label class="fl">TELEGRAM CHANNEL HANDLE</label><input class="fi" id="s-channel" placeholder="@myatlassignals" oninput="saveCfg()"></div>
+      <div class="fg"><label class="fl">RISK DISCLAIMER (shown on public page)</label><textarea class="fi" id="s-disclaimer" rows="2" style="resize:none" oninput="saveCfg()">Past performance does not guarantee future results. Trade at your own risk.</textarea></div>
+    </div>
+  </div>
+</div>
+</div><!-- end #app -->
+
+<!-- FAB -->
+<button class="fab" onclick="switchTab('new')" id="fab" title="New Signal">
+  <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+</button>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settingsModal" onclick="e=>{if(e.target===this)closeSettings()}">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Settings</div>
+    <div class="fg"><label class="fl">TELEGRAM BOT TOKEN</label><input class="fi" id="cfg-tg-token" type="password" placeholder="From @BotFather"></div>
+    <div class="fg"><label class="fl">TELEGRAM CHAT ID / CHANNEL</label><input class="fi" id="cfg-tg-chat" placeholder="@channel or -100xxxxxxxxxx"></div>
+    <div class="fg"><label class="fl">RISK DISCLAIMER ON SIGNALS</label><textarea class="fi" id="cfg-disclaimer" rows="2" style="resize:none">Past performance does not guarantee future results. Trade at your own risk. Never risk more than you can afford to lose.</textarea></div>
+    <button class="submit-btn" onclick="saveSettings()">SAVE SETTINGS</button>
+    <div style="height:8px"></div>
+    <button class="submit-btn secondary" onclick="testTelegram()">TEST TELEGRAM CONNECTION</button>
+    <div style="margin-top:16px;padding:12px;background:var(--red-dim);border-radius:10px">
+      <div style="font-size:10px;font-weight:700;color:var(--red);margin-bottom:6px">DANGER ZONE</div>
+      <button class="sig-btn loss" style="width:100%;padding:10px" onclick="clearAllData()">DELETE ALL SIGNAL DATA</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast-wrap" id="toastWrap">
+  <div class="toast" id="toast"></div>
+</div>
+
+<!-- PUBLIC VIEW (rendered when URL has #public) -->
+<div id="publicView" style="display:none;min-height:100vh"></div>
+
+<script>
+// ══════════════════════════════════════════════════
+// DATA LAYER
+// ══════════════════════════════════════════════════
+const STORE_KEY='atlas_signals_v1', CFG_KEY='atlas_signals_cfg';
+
+function loadData(){
+  try{return JSON.parse(localStorage.getItem(STORE_KEY)||'[]');}catch{return [];}
+}
+function saveData(signals){
+  localStorage.setItem(STORE_KEY,JSON.stringify(signals));
+}
+function loadCfg(){
+  try{return JSON.parse(localStorage.getItem(CFG_KEY)||'{}');}catch{return {};}
+}
+function saveCfgData(obj){localStorage.setItem(CFG_KEY,JSON.stringify({...loadCfg(),...obj}));}
+
+let _signals=loadData(), _cfg=loadCfg();
+
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+
+// ══════════════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════════════
+let _tab='live';
+function switchTab(tab){
+  _tab=tab;
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+tab)?.classList.add('active');
+  document.getElementById('pane-'+tab)?.classList.add('active');
+  document.getElementById('fab').style.display=tab==='new'?'none':'flex';
+  if(tab==='live') renderLive();
+  if(tab==='history') renderHistory('ALL');
+  if(tab==='performance') renderPerformance();
+  if(tab==='share') renderShare();
+  if(tab==='new') checkAtlasImport();
+}
+
+// ══════════════════════════════════════════════════
+// STATS BAR
+// ══════════════════════════════════════════════════
+function updateStats(){
+  const closed=_signals.filter(s=>['TP1_HIT','TP2_HIT','SL_HIT','BREAKEVEN','EXPIRED'].includes(s.status));
+  const wins=closed.filter(s=>s.status==='TP1_HIT'||s.status==='TP2_HIT').length;
+  const losses=closed.filter(s=>s.status==='SL_HIT').length;
+  const wr=closed.length?Math.round(wins/closed.length*100):null;
+  const totalR=closed.reduce((sum,s)=>sum+(s.resultR||0),0);
+
+  document.getElementById('stat-wr').textContent=wr!=null?wr+'%':'--';
+  document.getElementById('stat-wr').style.color=wr>=60?'var(--green)':wr>=45?'var(--amber)':'var(--red)';
+  document.getElementById('stat-total').textContent=_signals.filter(s=>!['CANCELLED'].includes(s.status)).length;
+  document.getElementById('stat-r').textContent=(totalR>=0?'+':'')+totalR.toFixed(1)+'R';
+  document.getElementById('stat-r').style.color=totalR>=0?'var(--cyan)':'var(--red)';
+
+  // Streak
+  let streak=0,streakType='';
+  const sorted=[..._signals].filter(s=>s.closedAt).sort((a,b)=>new Date(b.closedAt)-new Date(a.closedAt));
+  for(const s of sorted){
+    const w=s.status==='TP1_HIT'||s.status==='TP2_HIT';
+    const l=s.status==='SL_HIT';
+    if(!w&&!l) break;
+    if(streak===0) streakType=w?'W':'L';
+    if((w&&streakType==='W')||(l&&streakType==='L')) streak++;
+    else break;
+  }
+  document.getElementById('stat-streak').textContent=streak?streak+streakType:'--';
+  document.getElementById('stat-streak').style.color=streakType==='W'?'var(--green)':streakType==='L'?'var(--red)':'var(--muted)';
+
+  // ON AIR
+  const active=_signals.filter(s=>s.status==='ACTIVE'||s.status==='PENDING').length;
+  const badge=document.getElementById('onAirBadge');
+  const dot=document.getElementById('bsDot');
+  if(active>0){
+    badge.className='on-air';
+    dot.className='bs-dot';
+  } else {
+    badge.className='on-air off';
+    dot.className='bs-dot off';
+  }
+}
+
+// ══════════════════════════════════════════════════
+// SIGNAL CARD RENDERER
+// ══════════════════════════════════════════════════
+function dirClass(s){return s.direction==='LONG'?'long':'short';}
+function statusBadge(s){
+  const map={ACTIVE:'status-active',PENDING:'status-pending',TP1_HIT:'status-win',TP2_HIT:'status-win',SL_HIT:'status-loss',BREAKEVEN:'status-be',EXPIRED:'status-expired',CANCELLED:'status-expired'};
+  const lbl={ACTIVE:'ACTIVE',PENDING:'PENDING',TP1_HIT:'TP1 HIT ✓',TP2_HIT:'TP2 HIT ✓',SL_HIT:'STOPPED OUT',BREAKEVEN:'BREAKEVEN',EXPIRED:'EXPIRED',CANCELLED:'CANCELLED'};
+  return `<span class="sig-status ${map[s.status]||''}">${lbl[s.status]||s.status}</span>`;
+}
+function cardClass(s){
+  const base=dirClass(s);
+  if(s.status==='TP1_HIT'||s.status==='TP2_HIT') return base+' closed-win';
+  if(s.status==='SL_HIT') return base+' closed-loss';
+  if(s.status==='BREAKEVEN') return base+' closed-be';
+  if(s.status==='EXPIRED'||s.status==='CANCELLED') return base+' expired';
+  return base;
+}
+function fmtPrice(v){return v!=null&&v!==''?parseFloat(v).toString():'--';}
+function fmtAge(iso){
+  const ms=Date.now()-new Date(iso).getTime();
+  const m=Math.floor(ms/60000);
+  if(m<60) return m+'m ago';
+  const h=Math.floor(m/60);
+  if(h<24) return h+'h ago';
+  return Math.floor(h/24)+'d ago';
+}
+function renderSignalCard(s, actions=true){
+  const entry2=s.entryHigh?'–'+fmtPrice(s.entryHigh):'';
+  const rrHtml=s.rr?`<span style="color:var(--amber);font-weight:700">${s.rr}</span>`:'';
+  const resultHtml=s.resultR!=null?`<div class="sig-result">
+    <div>
+      <div style="font-size:9px;color:var(--muted);letter-spacing:1px">RESULT</div>
+      <div style="font-size:10px;color:var(--muted)">${s.status==='TP1_HIT'?'TP1 Hit':s.status==='TP2_HIT'?'Full Target Hit':s.status==='SL_HIT'?'Stop Loss Hit':'Closed'}</div>
+    </div>
+    <div class="sig-result-r" style="color:${s.resultR>=0?'var(--green)':'var(--red)'}">${s.resultR>=0?'+':''}${s.resultR.toFixed(2)}R</div>
+  </div>`:'';
+
+  const activeActions=actions&&(s.status==='ACTIVE'||s.status==='PENDING')?`<div class="sig-actions">
+    <button class="sig-btn hit" onclick="closeSignal('${s.id}','TP2_HIT',2)">TP2 ✓</button>
+    <button class="sig-btn hit" onclick="closeSignal('${s.id}','TP1_HIT',1)" style="background:rgba(0,200,150,0.06)">TP1</button>
+    <button class="sig-btn be" onclick="closeSignal('${s.id}','BREAKEVEN',0)">BE</button>
+    <button class="sig-btn loss" onclick="closeSignal('${s.id}','SL_HIT',-1)">SL ✗</button>
+    <button class="sig-btn cancel" onclick="closeSignal('${s.id}','EXPIRED',0)" title="Expire">⏱</button>
+  </div>
+  <div class="sig-actions" style="padding-top:0">
+    <button class="sig-btn push" onclick="pushSignal('${s.id}')">📡 PUSH TO TG</button>
+    <button class="sig-btn del" onclick="deleteSignal('${s.id}')">DEL</button>
+  </div>`:'';
+
+  const histActions=actions&&['TP1_HIT','TP2_HIT','SL_HIT','BREAKEVEN','EXPIRED'].includes(s.status)?`<div class="sig-actions">
+    <button class="sig-btn push" onclick="pushSignal('${s.id}')">📡 RESHARE</button>
+    <button class="sig-btn del" onclick="deleteSignal('${s.id}')">DEL</button>
+  </div>`:'';
+
+  return `<div class="signal-card ${cardClass(s)}" id="card-${s.id}">
+    <div class="sig-head">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="sig-pair">${s.pair}</div>
+        <div class="sig-dir"><span class="dir-badge ${dirClass(s)}">${s.direction}</span></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">${statusBadge(s)}</div>
+    </div>
+    <div class="sig-levels">
+      <div class="sig-level"><div class="sig-level-val">${fmtPrice(s.entry)}${entry2}</div><div class="sig-level-lbl">ENTRY</div></div>
+      <div class="sig-level"><div class="sig-level-val" style="color:var(--red)">${fmtPrice(s.sl)}</div><div class="sig-level-lbl">STOP</div></div>
+      <div class="sig-level"><div class="sig-level-val" style="color:var(--green)">${fmtPrice(s.tp1)}</div><div class="sig-level-lbl">TP1</div></div>
+      <div class="sig-level"><div class="sig-level-val" style="color:var(--green)">${s.tp2?fmtPrice(s.tp2):'--'}</div><div class="sig-level-lbl">TP2</div></div>
+    </div>
+    <div class="sig-meta">
+      ${s.orderType?`<span class="sig-meta-chip">${s.orderType}</span>`:''}
+      ${s.session?`<span class="sig-meta-chip">${s.session}</span>`:''}
+      ${s.confidence?`<span class="sig-meta-chip conf">${s.confidence}/10</span>`:''}
+      ${s.setup?`<span class="sig-meta-chip">${s.setup}</span>`:''}
+      ${rrHtml?`<span class="sig-meta-chip">${rrHtml}</span>`:''}
+      <span class="sig-meta-chip" style="margin-left:auto">${fmtAge(s.pushedAt||s.createdAt)}</span>
+    </div>
+    ${resultHtml}
+    ${activeActions}
+    ${histActions}
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════
+// LIVE PANE
+// ══════════════════════════════════════════════════
+function renderLive(){
+  const live=_signals.filter(s=>s.status==='ACTIVE'||s.status==='PENDING').sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+  const el=document.getElementById('live-signals');
+  const bsTitle=document.getElementById('bsTitle');
+  const bsSub=document.getElementById('bsSub');
+  const bsTime=document.getElementById('bsTime');
+  const bsDot=document.getElementById('bsDot');
+
+  if(!live.length){
+    bsTitle.textContent='No Active Signals';
+    bsSub.textContent='Publish a signal to go live';
+    bsTime.textContent='';
+    bsDot.className='bs-dot off';
+    el.innerHTML=`<div class="empty"><div class="empty-icon">📡</div><div class="empty-title">Channel is quiet</div><div class="empty-body">Tap the + button to create and broadcast your next signal.</div></div>`;
+    return;
+  }
+
+  bsTitle.textContent=live.length+' Signal'+(live.length>1?'s':'')+' Live';
+  bsSub.textContent=live.map(s=>s.pair).join(' · ');
+  bsTime.textContent=fmtAge(live[0].createdAt);
+  bsDot.className='bs-dot';
+  el.innerHTML=live.map(s=>renderSignalCard(s,true)).join('');
+  updateStats();
+}
+
+// ══════════════════════════════════════════════════
+// HISTORY PANE
+// ══════════════════════════════════════════════════
+let _hf='ALL';
+function filterHistory(f){
+  _hf=f;
+  ['ALL','WIN','LOSS','EXPIRED'].forEach(k=>{
+    const btn=document.getElementById('hf-'+k);
+    if(btn) btn.style.background=k===f?'var(--cyan)':''
+    if(btn) btn.style.color=k===f?'#0B0D12':k==='WIN'?'var(--green)':k==='LOSS'?'var(--red)':'var(--muted)';
+  });
+  renderHistory(f);
+}
+function renderHistory(f){
+  _hf=f;
+  const closed=_signals.filter(s=>['TP1_HIT','TP2_HIT','SL_HIT','BREAKEVEN','EXPIRED','CANCELLED'].includes(s.status));
+  let filtered=closed;
+  if(f==='WIN') filtered=closed.filter(s=>s.status==='TP1_HIT'||s.status==='TP2_HIT');
+  if(f==='LOSS') filtered=closed.filter(s=>s.status==='SL_HIT');
+  if(f==='EXPIRED') filtered=closed.filter(s=>s.status==='EXPIRED'||s.status==='CANCELLED'||s.status==='BREAKEVEN');
+  filtered.sort((a,b)=>new Date(b.closedAt||b.createdAt)-new Date(a.closedAt||a.createdAt));
+  const el=document.getElementById('history-signals');
+  if(!filtered.length){
+    el.innerHTML=`<div class="empty"><div class="empty-icon">📋</div><div class="empty-title">No ${f==='ALL'?'closed':f.toLowerCase()} signals yet</div><div class="empty-body">Closed signals will appear here once you mark them as hit, stopped, or expired.</div></div>`;
+    return;
+  }
+  el.innerHTML=filtered.map(s=>renderSignalCard(s,true)).join('');
+}
+
+// ══════════════════════════════════════════════════
+// PERFORMANCE PANE
+// ══════════════════════════════════════════════════
+function renderPerformance(){
+  const closed=_signals.filter(s=>['TP1_HIT','TP2_HIT','SL_HIT','BREAKEVEN'].includes(s.status));
+  const wins=closed.filter(s=>s.status==='TP1_HIT'||s.status==='TP2_HIT');
+  const losses=closed.filter(s=>s.status==='SL_HIT');
+  const wr=closed.length?Math.round(wins.length/closed.length*100):0;
+  const totalR=closed.reduce((s,t)=>s+(t.resultR||0),0);
+  const avgW=wins.length?(wins.reduce((s,t)=>s+(t.resultR||1),0)/wins.length).toFixed(2):0;
+  const avgL=losses.length?(Math.abs(losses.reduce((s,t)=>s+(t.resultR||-1),0)/losses.length)).toFixed(2):0;
+  const pf=avgL>0?(avgW*wins.length/(avgL*losses.length)).toFixed(2):'∞';
+  const active=_signals.filter(s=>s.status==='ACTIVE'||s.status==='PENDING').length;
+
+  document.getElementById('perf-grid').innerHTML=`
+    <div class="perf-card"><div class="perf-val" style="color:${wr>=55?'var(--green)':wr>=40?'var(--amber)':'var(--red)'}">${wr}%</div><div class="perf-lbl">WIN RATE</div><div class="perf-sub">${wins.length}W · ${losses.length}L of ${closed.length} closed</div></div>
+    <div class="perf-card"><div class="perf-val" style="color:${totalR>=0?'var(--cyan)':'var(--red)'}">${totalR>=0?'+':''}${totalR.toFixed(1)}R</div><div class="perf-lbl">TOTAL R</div><div class="perf-sub">Avg win ${avgW}R · Avg loss ${avgL}R</div></div>
+    <div class="perf-card"><div class="perf-val" style="color:var(--amber)">${pf}</div><div class="perf-lbl">PROFIT FACTOR</div><div class="perf-sub">Gross wins ÷ gross losses</div></div>
+    <div class="perf-card"><div class="perf-val">${_signals.length}</div><div class="perf-lbl">TOTAL SIGNALS</div><div class="perf-sub">${active} currently live</div></div>`;
+
+  // Equity curve (R progression)
+  const sorted=[...closed].sort((a,b)=>new Date(a.closedAt||a.createdAt)-new Date(b.closedAt||b.createdAt));
+  let cum=0;
+  const pts=sorted.map(s=>{cum+=(s.resultR||0);return cum;});
+  const min=Math.min(0,...pts), max=Math.max(0,...pts), range=max-min||1;
+  const w=300,h=80,pad=4;
+  const px=(i)=>pts.length>1?(i/(pts.length-1))*(w-pad*2)+pad:w/2;
+  const py=(v)=>h-pad-((v-min)/range)*(h-pad*2);
+  let path=pts.map((v,i)=>`${i===0?'M':'L'}${px(i).toFixed(1)},${py(v).toFixed(1)}`).join(' ');
+  const finalColor=cum>=0?'var(--cyan)':'var(--red)';
+  document.getElementById('equity-curve').innerHTML=`<div class="equity-title">EQUITY CURVE (cumulative R)</div>
+    ${pts.length<2?'<div style="font-size:11px;color:var(--muted)">Need at least 2 closed signals to draw the curve.</div>':`
+    <div class="chart-wrap"><svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+      <path d="${path} L${px(pts.length-1).toFixed(1)},${h} L${pad},${h} Z" fill="${finalColor}" fill-opacity="0.08"/>
+      <path d="${path}" stroke="${finalColor}" stroke-width="2" fill="none"/>
+      <line x1="${pad}" y1="${py(0).toFixed(1)}" x2="${w-pad}" y2="${py(0).toFixed(1)}" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,4"/>
+    </svg></div>`}`;
+
+  // Monthly breakdown
+  const byMonth={};
+  closed.forEach(s=>{
+    const d=new Date(s.closedAt||s.createdAt);
+    const k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+    if(!byMonth[k]) byMonth[k]={r:0,n:0,w:0};
+    byMonth[k].r+=(s.resultR||0);
+    byMonth[k].n++;
+    if(s.status==='TP1_HIT'||s.status==='TP2_HIT') byMonth[k].w++;
+  });
+  const months=Object.keys(byMonth).sort().reverse().slice(0,6);
+  const maxAbs=Math.max(1,...months.map(k=>Math.abs(byMonth[k].r)));
+  const MONTH_NAMES=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('monthly-breakdown').innerHTML=`<div class="equity-title">MONTHLY BREAKDOWN</div>
+    ${!months.length?'<div style="font-size:11px;color:var(--muted)">No closed trades yet.</div>':
+    months.map(k=>{const m=byMonth[k];const pct=Math.round(Math.abs(m.r)/maxAbs*100);const col=m.r>=0?'var(--green)':'var(--red)';
+    const [yr,mo]=k.split('-');
+    return `<div class="month-row"><div class="month-name">${MONTH_NAMES[parseInt(mo)-1]} ${yr.slice(2)}</div>
+      <div class="month-bar-wrap"><div class="month-bar" style="width:${pct}%;background:${col}"></div></div>
+      <div class="month-val" style="color:${col}">${m.r>=0?'+':''}${m.r.toFixed(1)}R</div></div>`;}).join('')}`;
+}
+
+// ══════════════════════════════════════════════════
+// SHARE PANE
+// ══════════════════════════════════════════════════
+function renderShare(){
+  const url=window.location.href.split('#')[0]+'#public';
+  document.getElementById('shareUrl').textContent=url;
+  document.getElementById('s-name').value=_cfg.channelName||'ATLAS Signals';
+  document.getElementById('s-channel').value=_cfg.tgChannel||'';
+  document.getElementById('s-disclaimer').value=_cfg.disclaimer||'Past performance does not guarantee future results. Trade at your own risk.';
+}
+function copyShareLink(){
+  const url=window.location.href.split('#')[0]+'#public';
+  navigator.clipboard?.writeText(url).then(()=>toast('Link copied ✓')).catch(()=>toast('Copy: '+url));
+}
+function saveCfg(){
+  saveCfgData({channelName:document.getElementById('s-name')?.value,tgChannel:document.getElementById('s-channel')?.value,disclaimer:document.getElementById('s-disclaimer')?.value});
+}
+
+// ══════════════════════════════════════════════════
+// CREATE SIGNAL
+// ══════════════════════════════════════════════════
+function calcRR(){
+  const entry=parseFloat(document.getElementById('n-entry').value);
+  const sl=parseFloat(document.getElementById('n-sl').value);
+  const tp1=parseFloat(document.getElementById('n-tp1').value);
+  const el=document.getElementById('rr-display');
+  if(!entry||!sl||!tp1){el.textContent='Enter entry, SL and TP1 to calculate R:R';return;}
+  const risk=Math.abs(entry-sl);
+  const reward=Math.abs(tp1-entry);
+  const rr=(reward/risk).toFixed(2);
+  const col=rr>=2?'var(--green)':rr>=1.5?'var(--amber)':'var(--red)';
+  el.innerHTML=`R:R = <strong style="color:${col}">1:${rr}</strong> · Risk: ${risk.toFixed(2)} pts · Reward: ${reward.toFixed(2)} pts ${rr<1.5?'<span style="color:var(--red)">⚠ Below minimum 1:1.5</span>':''}`;
+}
+
+function createSignal(push){
+  const pair=document.getElementById('n-pair').value.trim().toUpperCase();
+  const entry=document.getElementById('n-entry').value;
+  if(!pair){toast('Enter a pair');return;}
+  if(!entry){toast('Enter an entry price');return;}
+
+  const sl=document.getElementById('n-sl').value;
+  const tp1=document.getElementById('n-tp1').value;
+  let rr=null;
+  if(entry&&sl&&tp1){
+    const risk=Math.abs(parseFloat(entry)-parseFloat(sl));
+    const reward=Math.abs(parseFloat(tp1)-parseFloat(entry));
+    rr='1:'+(reward/risk).toFixed(2);
+  }
+
+  const sig={
+    id:uid(),pair,
+    direction:document.getElementById('n-dir').value,
+    orderType:document.getElementById('n-order').value,
+    entry,entryHigh:document.getElementById('n-entry2').value,
+    sl,tp1,tp2:document.getElementById('n-tp2').value,rr,
+    confidence:document.getElementById('n-conf').value,
+    session:document.getElementById('n-session').value,
+    setup:document.getElementById('n-setup').value,
+    notes:document.getElementById('n-notes').value,
+    status:document.getElementById('n-status').value,
+    createdAt:new Date().toISOString(),
+    pushedAt:push?new Date().toISOString():null,
+    resultR:null,closedAt:null
+  };
+
+  _signals.unshift(sig);
+  saveData(_signals);
+  updateStats();
+
+  // Clear form
+  ['n-pair','n-entry','n-entry2','n-sl','n-tp1','n-tp2','n-setup','n-notes'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.value='';
+  });
+  document.getElementById('rr-display').textContent='Enter entry, SL and TP1 to calculate R:R';
+
+  if(push){
+    sendTelegramSignal(sig).then(ok=>{
+      toast(ok?'📡 Signal pushed to Telegram ✓':'Signal saved — Telegram push failed (check settings)');
+    });
+  } else {
+    toast('Signal saved');
+  }
+  switchTab('live');
+}
+
+// ══════════════════════════════════════════════════
+// SIGNAL ACTIONS
+// ══════════════════════════════════════════════════
+function closeSignal(id, status, rMultiple){
+  const sig=_signals.find(s=>s.id===id);
+  if(!sig) return;
+  // Use actual TP R:R if we know it
+  let r=rMultiple;
+  if(status==='TP1_HIT'&&sig.rr){const rrNum=parseFloat(sig.rr.split(':')[1]); if(!isNaN(rrNum)) r=rrNum;}
+  if(status==='TP2_HIT'&&sig.tp2&&sig.entry&&sig.sl){
+    const risk=Math.abs(parseFloat(sig.entry)-parseFloat(sig.sl));
+    const reward=Math.abs(parseFloat(sig.tp2)-parseFloat(sig.entry));
+    r=reward/risk;
+  }
+  sig.status=status;
+  sig.resultR=r;
+  sig.closedAt=new Date().toISOString();
+  saveData(_signals);
+  updateStats();
+  renderLive();
+  const labels={TP1_HIT:'TP1 Hit ✓ +'+r+'R',TP2_HIT:'Full target hit ✓ +'+r.toFixed(2)+'R',SL_HIT:'Stopped out ✗ -1R',BREAKEVEN:'Breakeven → 0R',EXPIRED:'Signal expired'};
+  toast(labels[status]||'Updated');
+  // Auto-push update to Telegram
+  const cfg=loadCfg();
+  if(cfg.tgToken&&cfg.tgChat){
+    const msgs={TP1_HIT:`✅ *TP1 HIT* — ${sig.pair} ${sig.direction}\nProfit: +${r}R locked in. Moving SL to breakeven if holding for TP2.`,
+      TP2_HIT:`🎯 *FULL TARGET HIT* — ${sig.pair} ${sig.direction}\n+${r.toFixed(2)}R achieved. Signal closed. Well traded! 💰`,
+      SL_HIT:`❌ *STOPPED OUT* — ${sig.pair} ${sig.direction}\n-1R. Clean loss, part of the game. Next setup incoming.`,
+      BREAKEVEN:`⚖️ *BREAKEVEN* — ${sig.pair} ${sig.direction}\nTrade closed at entry. Capital protected.`};
+    if(msgs[status]) sendTg(cfg.tgToken,cfg.tgChat,msgs[status]);
+  }
+}
+
+function pushSignal(id){
+  const sig=_signals.find(s=>s.id===id);
+  if(!sig) return;
+  sendTelegramSignal(sig).then(ok=>{
+    toast(ok?'📡 Pushed ✓':'Telegram push failed — check settings');
+    if(ok){sig.pushedAt=new Date().toISOString();saveData(_signals);}
+  });
+}
+
+function deleteSignal(id){
+  if(!confirm('Delete this signal?')) return;
+  _signals=_signals.filter(s=>s.id!==id);
+  saveData(_signals);
+  updateStats();
+  if(_tab==='live') renderLive();
+  else renderHistory(_hf);
+  toast('Signal deleted');
+}
+
+// ══════════════════════════════════════════════════
+// TELEGRAM
+// ══════════════════════════════════════════════════
+async function sendTg(token, chat, text){
+  try{
+    const r=await fetch(`https://api.telegram.org/bot${token}/sendMessage`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({chat_id:chat,text,parse_mode:'Markdown'})
+    });
+    return r.ok;
+  }catch{return false;}
+}
+
+async function sendTelegramSignal(sig){
+  const cfg=loadCfg();
+  if(!cfg.tgToken||!cfg.tgChat){toast('Add Telegram credentials in Settings first');return false;}
+
+  const dirEmoji=sig.direction==='LONG'?'🟢':'🔴';
+  const orderLabel=sig.orderType&&sig.orderType!=='MARKET'?`*Order Type:* ${sig.orderType}\n`:'';
+  const entry2=sig.entryHigh?` – ${fmtPrice(sig.entryHigh)}`:'';
+  const tp2Line=sig.tp2?`✅ *TP2:* \`${fmtPrice(sig.tp2)}\`\n`:'';
+  const rrLine=sig.rr?`📐 *R:R:* ${sig.rr}\n`:'';
+  const confLine=sig.confidence?`📊 *Confluence:* ${sig.confidence}/10\n`:'';
+  const sessLine=sig.session?`⏰ *Session:* ${sig.session}\n`:'';
+  const setupLine=sig.setup?`🔖 *Setup:* ${sig.setup}\n`:'';
+  const channelName=cfg.channelName||'ATLAS Signals';
+  const disclaimer=cfg.disclaimer||'Past performance does not guarantee future results. Trade at your own risk.';
+
+  const msg=`${dirEmoji} *SIGNAL ALERT — ${channelName}*
+📊 *${sig.pair}* | *${sig.direction}* | ${sig.status}
+
+📍 *Entry:* \`${fmtPrice(sig.entry)}${entry2}\`
+🛑 *Stop Loss:* \`${fmtPrice(sig.sl)}\`
+✅ *TP1:* \`${fmtPrice(sig.tp1)}\`
+${tp2Line}${orderLabel}${rrLine}${confLine}${sessLine}${setupLine}
+⚠️ _${disclaimer}_`;
+
+  return sendTg(cfg.tgToken, cfg.tgChat, msg);
+}
+
+// ══════════════════════════════════════════════════
+// ATLAS IMPORT
+// ══════════════════════════════════════════════════
+function checkAtlasImport(){
+  try{
+    const raw=localStorage.getItem('atlas_last_signal')||localStorage.getItem('atlas_plan');
+    if(!raw) return;
+    const d=JSON.parse(raw);
+    if(d&&d.pair&&d.entry){
+      document.getElementById('importBanner').style.display='flex';
+    }
+  }catch{}
+}
+function importFromAtlas(){
+  try{
+    const raw=localStorage.getItem('atlas_last_signal')||localStorage.getItem('atlas_plan');
+    if(!raw) return;
+    const d=JSON.parse(raw);
+    if(!d) return;
+    if(d.pair) document.getElementById('n-pair').value=d.pair;
+    if(d.direction) document.getElementById('n-dir').value=d.direction==='SHORT'?'SHORT':'LONG';
+    if(d.entry) document.getElementById('n-entry').value=d.entry;
+    if(d.sl||d.stop_loss) document.getElementById('n-sl').value=d.sl||d.stop_loss;
+    if(d.tp1) document.getElementById('n-tp1').value=d.tp1;
+    if(d.tp2) document.getElementById('n-tp2').value=d.tp2;
+    if(d.setup||d.setupName) document.getElementById('n-setup').value=d.setup||d.setupName||'';
+    if(d.confluence||d.conf) document.getElementById('n-conf').value=Math.min(10,Math.max(1,parseInt(d.confluence||d.conf)||8));
+    calcRR();
+    document.getElementById('importBanner').style.display='none';
+    toast('Imported from ATLAS ✓');
+  }catch(e){toast('Import failed: '+e.message);}
+}
+
+// ══════════════════════════════════════════════════
+// SETTINGS
+// ══════════════════════════════════════════════════
+function openSettings(){
+  const cfg=loadCfg();
+  document.getElementById('cfg-tg-token').value='';
+  document.getElementById('cfg-tg-token').placeholder=cfg.tgToken?'Token saved — re-enter to update':'From @BotFather';
+  document.getElementById('cfg-tg-chat').value=cfg.tgChat||'';
+  document.getElementById('cfg-disclaimer').value=cfg.disclaimer||'Past performance does not guarantee future results. Trade at your own risk. Never risk more than you can afford to lose.';
+  document.getElementById('settingsModal').classList.add('open');
+}
+function closeSettings(){document.getElementById('settingsModal').classList.remove('open');}
+function saveSettings(){
+  const token=document.getElementById('cfg-tg-token').value.trim();
+  const chat=document.getElementById('cfg-tg-chat').value.trim();
+  const disclaimer=document.getElementById('cfg-disclaimer').value.trim();
+  const upd={};
+  if(token) upd.tgToken=token;
+  if(chat) upd.tgChat=chat;
+  if(disclaimer) upd.disclaimer=disclaimer;
+  saveCfgData(upd);
+  _cfg=loadCfg();
+  closeSettings();
+  toast('Settings saved ✓');
+}
+async function testTelegram(){
+  const cfg=loadCfg();
+  const token=document.getElementById('cfg-tg-token').value.trim()||cfg.tgToken;
+  const chat=document.getElementById('cfg-tg-chat').value.trim()||cfg.tgChat;
+  if(!token||!chat){toast('Enter Telegram credentials first');return;}
+  toast('Testing...');
+  const ok=await sendTg(token,chat,'✅ *ATLAS Signals* connected! Ready to broadcast signals to this channel.');
+  toast(ok?'Telegram connected ✓':'Failed — check your bot token and chat ID');
+}
+function clearAllData(){
+  if(!confirm('Delete ALL signal data? This cannot be undone.')) return;
+  localStorage.removeItem(STORE_KEY);
+  _signals=[];
+  updateStats();
+  renderLive();
+  toast('All data cleared');
+}
+
+// ══════════════════════════════════════════════════
+// PUBLIC VIEW
+// ══════════════════════════════════════════════════
+function renderPublicView(){
+  document.getElementById('app').style.display='none';
+  document.getElementById('publicView').style.display='block';
+
+  const closed=_signals.filter(s=>['TP1_HIT','TP2_HIT','SL_HIT','BREAKEVEN'].includes(s.status));
+  const wins=closed.filter(s=>s.status==='TP1_HIT'||s.status==='TP2_HIT').length;
+  const wr=closed.length?Math.round(wins/closed.length*100):0;
+  const totalR=closed.reduce((s,t)=>s+(t.resultR||0),0);
+  const cfg=loadCfg();
+  const name=cfg.channelName||'ATLAS Signals';
+  const channel=cfg.tgChannel?`<a href="https://t.me/${cfg.tgChannel.replace('@','')}" style="color:var(--cyan);text-decoration:none;font-size:11px">${cfg.tgChannel}</a>`:'';
+  const disc=cfg.disclaimer||'Past performance does not guarantee future results.';
+  const active=_signals.filter(s=>s.status==='ACTIVE'||s.status==='PENDING');
+
+  const recentClosed=[...closed].sort((a,b)=>new Date(b.closedAt)-new Date(a.closedAt)).slice(0,8);
+  const histHTML=recentClosed.map(s=>{const w=s.status==='TP1_HIT'||s.status==='TP2_HIT';const l=s.status==='SL_HIT';const r=s.resultR;
+    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border)">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-family:var(--mono);font-size:13px;font-weight:700;color:${s.direction==='LONG'?'var(--green)':'var(--red)'}">${s.direction==='LONG'?'▲':'▼'} ${s.pair}</span>
+        <span style="font-size:10px;color:var(--muted)">${s.session||''}</span>
+      </div>
+      <div style="font-family:var(--mono);font-size:13px;font-weight:700;color:${w?'var(--green)':l?'var(--red)':'var(--muted)'}">${r!=null?(r>=0?'+':'')+r.toFixed(1)+'R':'BE'}</div>
+    </div>`;}).join('');
+
+  document.getElementById('publicView').innerHTML=`
+    <div style="max-width:480px;margin:0 auto">
+      <div class="public-header">
+        <div class="public-brand">${name.toUpperCase()}</div>
+        <div class="public-sub">VERIFIED TRACK RECORD</div>
+        ${channel}
+        ${active.length?`<div><div class="badge-live"><div class="on-air-dot" style="width:6px;height:6px;background:var(--cyan);border-radius:50%;animation:pulse 2s infinite"></div>${active.length} LIVE SIGNAL${active.length>1?'S':''}</div></div>`:''}
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border-bottom:1px solid var(--border)">
+        <div style="background:var(--bg);padding:16px;text-align:center">
+          <div style="font-family:var(--mono);font-size:24px;font-weight:700;color:${wr>=55?'var(--green)':'var(--amber)'}">${closed.length?wr+'%':'--'}</div>
+          <div style="font-size:8px;color:var(--muted);letter-spacing:1px;margin-top:3px">WIN RATE</div>
+        </div>
+        <div style="background:var(--bg);padding:16px;text-align:center">
+          <div style="font-family:var(--mono);font-size:24px;font-weight:700;color:${totalR>=0?'var(--cyan)':'var(--red)'}">${totalR>=0?'+':''}${totalR.toFixed(1)}R</div>
+          <div style="font-size:8px;color:var(--muted);letter-spacing:1px;margin-top:3px">TOTAL R</div>
+        </div>
+        <div style="background:var(--bg);padding:16px;text-align:center">
+          <div style="font-family:var(--mono);font-size:24px;font-weight:700">${closed.length}</div>
+          <div style="font-size:8px;color:var(--muted);letter-spacing:1px;margin-top:3px">SIGNALS</div>
+        </div>
+      </div>
+      ${active.length?`<div style="padding:14px;border-bottom:1px solid var(--border)">
+        <div style="font-size:9px;font-weight:700;color:var(--cyan);letter-spacing:1.5px;margin-bottom:10px">ACTIVE RIGHT NOW</div>
+        ${active.map(s=>`<div style="background:var(--card);border:1px solid var(--border);border-left:3px solid ${s.direction==='LONG'?'var(--green)':'var(--red)'};border-radius:10px;padding:11px 14px;margin-bottom:8px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <div><strong style="font-family:var(--display);font-size:16px">${s.pair}</strong> <span style="font-size:10px;color:${s.direction==='LONG'?'var(--green)':'var(--red)'}">${s.direction}</span></div>
+            <span style="font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;background:var(--cyan-dim);color:var(--cyan)">${s.status}</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:10px;text-align:center">
+            <div><div style="font-family:var(--mono);font-weight:700">${fmtPrice(s.entry)}</div><div style="color:var(--muted)">Entry</div></div>
+            <div><div style="font-family:var(--mono);font-weight:700;color:var(--red)">${fmtPrice(s.sl)}</div><div style="color:var(--muted)">Stop</div></div>
+            <div><div style="font-family:var(--mono);font-weight:700;color:var(--green)">${fmtPrice(s.tp1)}</div><div style="color:var(--muted)">TP1</div></div>
+          </div>
+          ${s.setup?`<div style="font-size:9px;color:var(--muted);margin-top:8px">${s.setup}</div>`:''}
+        </div>`).join('')}
+      </div>`:''}
+      ${recentClosed.length?`<div style="padding:14px 0">
+        <div style="font-size:9px;font-weight:700;color:var(--muted);letter-spacing:1.5px;padding:0 16px 10px">RECENT RESULTS</div>
+        ${histHTML}
+      </div>`:''}
+      <div style="padding:16px;text-align:center;font-size:10px;color:var(--muted);line-height:1.6;border-top:1px solid var(--border)">${disc}<br><br>Powered by ATLAS Market Intelligence</div>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════════
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg;
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),2800);
+}
+
+// ══════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════
+if(window.location.hash==='#public'){
+  renderPublicView();
+} else {
+  updateStats();
+  renderLive();
+  // Close settings modal on overlay click
+  document.getElementById('settingsModal').addEventListener('click',function(e){
+    if(e.target===this) closeSettings();
+  });
+}
+</script>
+</body>
+</html>
